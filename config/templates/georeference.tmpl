@@ -1,0 +1,14 @@
+{
+   "endpoint": "/georeference/v1/{controller}/{traceId}/{action}",
+   "output_encoding": "no-op",
+  {{ include "input_headers.tmpl"}},
+   "backend": [
+   {
+     "url_pattern": "/georeference/v1/{controller}/{traceId}/{action}",
+     "extra_config": {
+       {{ include "rate_limit_backend.tmpl"}}
+     },
+     "host": ["http://georeference.dev01.svc.cluster.local:8083"]
+   }
+   ]
+ }

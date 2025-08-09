@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    environment {
+
+        // URL del repositorio con los scripts de despliegue
+        DEPLOY_GIT_URL = "http://10.100.82.76:9003/Indra-T1/gatewayfixed/spring-deploy.git"
+        DEPLOY_GIT_BRANCH = "RQ-168710-PruebaDeploy"
+
+        // Credenciales para el acceso a Git
+        GIT_CREDENTIALS_ID = "f80d8eb5-ec23-4f87-9ad7-8f1b7fd7b78e"
+
+        // Nombre del nodo correspondiente a la torre
+        NODE_T1 = "jenkins_agent_T1"
+
+        APP_PROJECT_NAME = 'postgres-operator'
+
+        APP_KUBE_NAMESPACE = "postgres-operator"
+        
+    }
+    stages {
+        stage('Load deploy project') {
+            steps {
+                script {
+                    node("${NODE_T1}") {
+                        git url: "${DEPLOY_GIT_URL}", branch: "${DEPLOY_GIT_BRANCH}", credentialsId: "${GIT_CREDENTIALS_ID}"
+                        load './infrastructure/postgres-operator/deploy/deploy.groovy'
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Deploy completed successfully!'
+        }
+        failure {
+            echo 'Deploy failed!'
+        }
+    }
+}

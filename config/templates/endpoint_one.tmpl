@@ -1,0 +1,16 @@
+{
+   "endpoint": "/testjenkins/animals/statistics",
+  {{ include "input_headers.tmpl"}},
+  "extra_config": {
+    {{ include "auth_validator.tmpl"}}        
+  },
+   "backend": [
+   {
+     "url_pattern": "/testjenkins/animals/statistics",
+     "extra_config": {
+       {{ include "rate_limit_backend.tmpl"}}
+     },
+     "host": ["http://testjenkins.dev01.svc.cluster.local:8080"]
+   }
+   ]
+ }

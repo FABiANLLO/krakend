@@ -1,0 +1,17 @@
+{
+   "endpoint": "/customervalidation/recognize",
+   "output_encoding": "no-op",
+  {{ include "input_headers.tmpl"}},
+  "extra_config": {
+    {{ include "auth_validator.tmpl"}}        
+  },
+   "backend": [
+   {
+     "url_pattern": "/customervalidation/recognize",
+     "extra_config": {
+       {{ include "rate_limit_backend.tmpl"}}
+     },
+     "host": ["http://customervalidation.dev01.svc.cluster.local:8091"]
+   }
+   ]
+ }

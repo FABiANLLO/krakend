@@ -1,0 +1,13 @@
+{
+   "endpoint": "/assurancegateway/animals/statistics",
+  {{ include "input_headers.tmpl"}},
+   "backend": [
+   {
+     "url_pattern": "/assurancegateway/animals/statistics",
+     "extra_config": {
+       {{ include "rate_limit_backend.tmpl"}}
+     },
+     "host": ["http://testjenkins.dev01.svc.cluster.local:8080"]
+   }
+   ]
+ }
